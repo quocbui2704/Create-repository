@@ -9,6 +9,8 @@ export default function Upload() {
   const [primaryArtist, setPrimaryArtist] = useState("");
   const [upc, setUpc] = useState("");
   const [tracks, setTracks] = useState("");
+  const [metadataLanguage, setMetadataLanguage] = useState("");
+  const [pricingTier, setPricingTier] = useState("");
 
   const handleCoverUpload = (e) => {
     const file = e.target.files[0];
@@ -21,8 +23,10 @@ export default function Upload() {
       artist: primaryArtist,
       upc: upc,
       tracks: tracks,
+      metadataLanguage: metadataLanguage,
+      pricingTier: pricingTier,
     };
-    localStorage.setItem("releaseData", JSON.stringify(releaseData));
+    localStorage.setItem("latestRelease", JSON.stringify(releaseData));
     router.push("/overviews");
   };
 
@@ -43,13 +47,23 @@ export default function Upload() {
       </label>
 
       <label style={styles.label}>Release Title</label>
-      <input type="text" placeholder="Enter release title" style={styles.input} value={releaseTitle} onChange={(e) => setReleaseTitle(e.target.value)} />
+      <input
+        type="text"
+        placeholder="Enter release title"
+        style={styles.input}
+        value={releaseTitle}
+        onChange={(e) => setReleaseTitle(e.target.value)}
+      />
 
       <label style={styles.label}>Release Version</label>
       <input type="text" placeholder="Enter release version" style={styles.input} />
 
       <label style={styles.label}>Metadata Language</label>
-      <select style={styles.input}>
+      <select
+        style={styles.input}
+        value={metadataLanguage}
+        onChange={(e) => setMetadataLanguage(e.target.value)}
+      >
         <option value="">Select language</option>
         {languages.map((lang, i) => (
           <option key={i} value={lang}>{lang}</option>
@@ -57,16 +71,38 @@ export default function Upload() {
       </select>
 
       <label style={styles.label}>Primary Artist</label>
-      <input type="text" placeholder="Enter artist name" style={styles.input} value={primaryArtist} onChange={(e) => setPrimaryArtist(e.target.value)} />
+      <input
+        type="text"
+        placeholder="Enter artist name"
+        style={styles.input}
+        value={primaryArtist}
+        onChange={(e) => setPrimaryArtist(e.target.value)}
+      />
 
       <label style={styles.label}>UPC (leave blank for auto)</label>
-      <input type="text" placeholder="UPC will be assigned automatically if empty" style={styles.input} value={upc} onChange={(e) => setUpc(e.target.value)} />
+      <input
+        type="text"
+        placeholder="UPC will be assigned automatically if empty"
+        style={styles.input}
+        value={upc}
+        onChange={(e) => setUpc(e.target.value)}
+      />
 
       <label style={styles.label}>Tracks</label>
-      <input type="number" placeholder="Number of tracks" style={styles.input} value={tracks} onChange={(e) => setTracks(e.target.value)} />
+      <input
+        type="number"
+        placeholder="Number of tracks"
+        style={styles.input}
+        value={tracks}
+        onChange={(e) => setTracks(e.target.value)}
+      />
 
       <label style={styles.label}>Release Pricing Tier</label>
-      <select style={styles.input}>
+      <select
+        style={styles.input}
+        value={pricingTier}
+        onChange={(e) => setPricingTier(e.target.value)}
+      >
         <option value="">Select pricing tier</option>
         <option value="single">Single - Front</option>
         <option value="standard">Standard Release</option>
