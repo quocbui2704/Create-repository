@@ -1,15 +1,32 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Login() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    // Tạo user admin mặc định nếu chưa có (chỉ chạy 1 lần)
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const adminExists = users.some((u) => u.username === "admin");
+    if (!adminExists) {
+      users.push({ username: "admin", password: "password", role: "admin" });
+      localStorage.setItem("users", JSON.stringify(users));
+    }
+  }, []);
+
   const handleLogin = (e) => {
     e.preventDefault();
-    if (username === "admin" && password === "password") {
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const foundUser = users.find(
+      (u) => u.username === username && u.password === password
+    );
+
+    if (foundUser) {
       localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("currentUser", JSON.stringify(foundUser));
       router.push("/");
     } else {
       alert("Sai tài khoản hoặc mật khẩu!");

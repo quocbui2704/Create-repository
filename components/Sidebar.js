@@ -1,6 +1,16 @@
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export default function Sidebar() {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (currentUser && currentUser.role === "admin") {
+      setIsAdmin(true);
+    }
+  }, []);
+
   return (
     <div style={styles.sidebar}>
       <h3 style={styles.header}>Dashboard</h3>
@@ -10,6 +20,9 @@ export default function Sidebar() {
         <li><Link href="/tracks" style={styles.link}>Tracks</Link></li>
         <li><Link href="/analytics" style={styles.link}>Analytics</Link></li>
         <li><Link href="/paid" style={styles.link}>$ Paid</Link></li>
+        {isAdmin && (
+          <li><Link href="/create-user" style={styles.link}>Create User</Link></li>
+        )}
       </ul>
       <div style={styles.logoContainer}>
         <img src="/logo.png" alt="Logo" style={styles.logo} />
